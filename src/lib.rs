@@ -39,3 +39,20 @@ pub fn wasm_put_item(id_name: &str, title: &str, id_val: &str) -> Result<(), JsV
 
     Ok(())
 }
+
+#[wasm_bindgen]
+pub fn task_row(id_name: &str, title: &str, id_val: &str) -> Result<(), JsValue>{
+    let document = web_sys::window().unwrap().document().unwrap();
+    let entry_point = document.get_element_by_id(id_name).unwrap();
+    let val = document.create_element("li")?;
+    let s_title = format!("<h3 class='h3_title'>{}</h3>", title ); 
+    let a_title = format!("<a href='/wasm_tasks/{}'>{}</a>", id_val, s_title ); 
+    let s_id = format!("<span>ID :{}</span>", id_val ); 
+    let btn_edit = format!("<a href='/wasm_tasks/{}/edit'> [ edit ] </a>", id_val ); 
+    let s_elm = format!("<div class='div_post_wrap'>{}{}{}<hr /></div>", a_title, s_id ,btn_edit ); 
+//console::log_1(&JsValue::from_str( &s_elm ));
+    val.set_inner_html(&s_elm );
+    entry_point.append_child(&val)?;
+
+    Ok(())
+}
