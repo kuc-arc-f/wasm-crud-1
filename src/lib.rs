@@ -30,11 +30,15 @@ pub fn wasm_put_item(id_name: &str, title: &str, id_val: &str) -> Result<(), JsV
     let document = web_sys::window().unwrap().document().unwrap();
     let entry_point = document.get_element_by_id(id_name).unwrap();
     let val = document.create_element("li")?;
-    let s_title = format!("<h3 class='h3_title'>{}</h3>", title ); 
-    let a_title = format!("<a href='/tasks/show/{}'>{}</a>", id_val, s_title ); 
-    let s_id = format!("<span>ID :{}</span>", id_val ); 
-    let btn_edit = format!("<a href='/tasks/edit/{}'> [ edit ] </a>", id_val ); 
-    let s_elm = format!("<div class='div_post_wrap'>{}{}{}<hr /></div>", a_title, s_id ,btn_edit ); 
+    let s_elm = format!("<div class='div_post_wrap'>
+        <a href='/tasks/show/{}'>
+            <h3 class='h3_title'>{}</h3>
+        </a>
+        <span>ID :{}</span>
+        <a href='/tasks/edit/{}'> [ edit ] </a>
+        <hr />
+    </div>", id_val , title, id_val, id_val );
+    val.set_inner_html(&s_elm );
 // console::log_1(&JsValue::from_str( &s_elm ));
     val.set_inner_html(&s_elm );
     entry_point.append_child(&val)?;
@@ -49,16 +53,18 @@ pub fn wasm_put_json(id_name: &str, json: &str) -> Result<(), JsValue>{
     let title = tmp_title.replace('"', "");
     let id_val = format!("{}", &v["id"]  );
 //    console::log_1(&JsValue::from_str( &title ));
-//    console::log_1(&JsValue::from_str( &id_val ));
 
     let document = web_sys::window().unwrap().document().unwrap();
     let entry_point = document.get_element_by_id(id_name).unwrap();
     let val = document.create_element("li")?;
-    let s_title = format!("<h3 class='h3_title'>{}</h3>", title ); 
-    let a_title = format!("<a href='/tasks/show/{}'>{}</a>", id_val, s_title ); 
-    let s_id = format!("<span>ID :{}</span>", id_val ); 
-    let btn_edit = format!("<a href='/tasks/edit/{}'> [ edit ] </a>", id_val ); 
-    let s_elm = format!("<div class='div_post_wrap'>{}{}{}<hr /></div>", a_title, s_id ,btn_edit ); 
+    let s_elm = format!("<div class='div_post_wrap'>
+        <a href='/tasks/show/{}'>
+            <h3 class='h3_title'>{}</h3>
+        </a>
+        <span>ID :{}</span>
+        <a href='/tasks/edit/{}'> [ edit ] </a>
+        <hr />
+    </div>", id_val , title, id_val, id_val );
     val.set_inner_html(&s_elm );
     entry_point.append_child(&val)?;
 
